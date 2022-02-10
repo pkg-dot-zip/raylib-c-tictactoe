@@ -22,18 +22,24 @@ void draw() {
 
     ClearBackground(RAYWHITE);
 
-    const int texture_x = SCREEN_WIDTH / 2 - texture.width / 2;
-    const int texture_y = SCREEN_HEIGHT / 2 - texture.height / 2;
+    const int texture_x = GetScreenWidth() / 2 - texture.width / 2;
+    const int texture_y = GetScreenHeight() / 2 - texture.height / 2;
     DrawTexture(texture, texture_x, texture_y, WHITE);
 
     const char* text = "OMG! IT WORKS!";
     const Vector2 text_size = MeasureTextEx(GetFontDefault(), text, 20, 1);
-    DrawText(text, SCREEN_WIDTH / 2 - text_size.x / 2, texture_y + texture.height + text_size.y + 10, 20, BLACK);
+    DrawText(text, GetScreenWidth() / 2 - text_size.x / 2, texture_y + texture.height + text_size.y + 10, 20, BLACK);
 
+    // Draw board.
+    for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
+        DrawRectangleLines(GetScreenWidth() / 2 + board[i].x * distance, GetScreenHeight() / 2 + board[i].y * distance, distance, distance, BLACK);
+    }
+
+    // Draw inner values.
     for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
         field value = board[i];
         const char* textToDraw = value.value;
-        DrawText(textToDraw, SCREEN_WIDTH / 2 + value.x * distance, SCREEN_HEIGHT / 2 + value.y * distance, 20, BLACK);
+        DrawText(textToDraw, GetScreenWidth() / 2 + value.x * distance, GetScreenHeight() / 2 + value.y * distance, 20, BLACK);
     }
 
     EndDrawing();
@@ -45,9 +51,10 @@ void update(float deltaTime) {
 
         for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
             field value = board[i];
-            Rectangle rect = {SCREEN_WIDTH / 2 + value.x * distance, SCREEN_HEIGHT / 2 + value.y * distance, distance, distance};
+            Rectangle rect = {GetScreenWidth() / 2 + value.x * distance, GetScreenHeight() / 2 + value.y * distance, distance, distance};
             if (CheckCollisionPointRec(pos, rect)) {
                 board[i].value = "X";
+                // TODO: Switch turn.
             }
         }
     }
