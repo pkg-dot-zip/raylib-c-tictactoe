@@ -6,6 +6,7 @@
 #define SCREEN_HEIGHT (450)
 
 #define WINDOW_TITLE "TicTacToe"
+
 const int distance = 40;
 const int fontSize = 20;
 
@@ -24,7 +25,7 @@ void draw() {
 
     // Draw board.
     for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
-        DrawRectangleLines(GetScreenWidth() / 2 + board[i].x * distance, GetScreenHeight() / 2 + board[i].y * distance,
+        DrawRectangleLines(GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + board[i].x * distance, GetScreenHeight() / 2 + board[i].y * distance,
                            distance, distance, BLACK);
     }
 
@@ -33,7 +34,7 @@ void draw() {
         field value = board[i];
         const char *textToDraw = value.value;
         const Vector2 textSize = MeasureTextEx(GetFontDefault(), textToDraw, fontSize, 1);
-        DrawText(textToDraw, GetScreenWidth() / 2 + value.x * distance + textSize.x / 2,
+        DrawText(textToDraw, GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + value.x * distance + textSize.x / 2,
                  GetScreenHeight() / 2 + value.y * distance + textSize.y, fontSize, BLACK);
     }
 
@@ -46,7 +47,7 @@ void update(float deltaTime) {
 
         for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
             field value = board[i];
-            Rectangle rect = {GetScreenWidth() / 2 + value.x * distance, GetScreenHeight() / 2 + value.y * distance,
+            Rectangle rect = {GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + value.x * distance, GetScreenHeight() / 2 + value.y * distance,
                               distance, distance};
             if (CheckCollisionPointRec(pos, rect)) {
                 board[i].value = "X";
