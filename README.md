@@ -1,20 +1,36 @@
-# Simple and portable CMake template for raylib
+<p align="center">
+  <a href="https://github.com/ZimonIsHim/raylib-c-tictactoe" rel="noopener">
+ <img width=200px height=200px src="https://i.imgur.com/1CWWMG5.png" alt="Project logo"></a>
+</p>
 
-This is a basic project template for raylib using CMake and has been tested with Visual Studio, Visual Studio Code and CLion.
+<h3 align="center">raylib-C-TicTacToe</h3>
 
-The master branch of the raylib source code is downloaded using CMake FetchContent from github and compiled from source as it is much easier than including prebuilt binaries for every platform and configuration.
+<div align="center">
 
-Building from the cmake file will build both raylib and `src/main.c` which includes a basic example of a raylib program.
+[![Stars](https://img.shields.io/github/stars/ZimonIsHim/raylib-c-tictactoe)](https://github.com/ZimonIsHim/raylib-c-tictactoe/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/ZimonIsHim/raylib-c-tictactoe/total)](https://github.com/ZimonIsHim/raylib-c-tictactoe/releases)
+[![Last Commit](https://img.shields.io/github/last-commit/ZimonIsHim/raylib-c-tictactoe)](https://github.com/ZimonIsHim/raylib-c-tictactoe/commits/development)
+[![License](https://img.shields.io/github/license/ZimonIsHim/raylib-c-tictactoe)](/LICENSE)
 
-## Asset handling
+</div>
 
-The example in `src/main.c` uses an example image located in the `assets` folder.
-To load it we use `ASSETS_PATH`, which is a string macro with the *absolute* path "assets" directory.
-This macro is defined in the `CMakeLists.txt` file on line `23`.
- 
-If you plan on releasing or sharing your game consider manually setting the value of the `ASSETS_PATH` macro.
+---
 
-In C you can concatenate string literals by putting them next to each other, 
-eg: `"A" "B"` is `"AB"`. So ASSETS_PATH `"test.png"` becomes `"/path/to/your/assets/test.png"`
+<p align="center"> A simple example of a tic-tac-toe game written in C using raylib.
+    <br> 
+</p>
 
-If you wanna share your game with others you should set ASSETS_PATH to be a *relative* path like "./assets/". You can do this in the CMakeLists.txt file. 
+## 📝 Table of Contents
+- [About](#about)
+- [Built Using](#built_using)
+- [Authors](#authors)
+
+## 🧐 About <a name = "about"></a>
+Raylib-c-tictactoe is a simple example of a tic-tac-toe game written in C using raylib. This project was made as an exercise to study the C programming language.
+
+## ⛏️ Built Using <a name = "built_using"></a>
+- [raylib](https://www.raylib.com/) - Framework
+- [CMake template for raylib](https://github.com/SasLuca/raylib-cmake-template) - Template for raylib
+
+## ✍️ Authors <a name = "authors"></a>
+- [@ZimonIsHim](https://github.com/ZimonIsHim) - Development
