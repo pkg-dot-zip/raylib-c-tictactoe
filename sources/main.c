@@ -19,18 +19,18 @@ int won = 0;
 
 void initBoard();
 
-int checkIfWon(char* pString[ROW_SIZE][ROW_SIZE]) {
+int checkIfWon() {
     int matches;
 
     // Check vertical.
     for (int y = 0; y < ROW_SIZE; ++y) {
         matches = 1;
-        char *player = pString[0][y];
+        char *player = board[0][y];
 
         if (player == " ") break;
 
         for (int x = 1; x < ROW_SIZE; ++x) {
-            if (pString[x][y] == player) {
+            if (board[x][y] == player) {
                 matches++;
                 printf("%d, %d ", x, y);
             }
@@ -42,12 +42,12 @@ int checkIfWon(char* pString[ROW_SIZE][ROW_SIZE]) {
     // Check horizontal.
     for (int x = 0; x < ROW_SIZE; ++x) {
         matches = 1;
-        char *player = pString[x][0];
+        char *player = board[x][0];
 
         if (player == " ") break;
 
         for (int y = 1; y < ROW_SIZE; ++y) {
-            if (pString[x][y] == player) {
+            if (board[x][y] == player) {
                 matches++;
             }
         }
@@ -57,18 +57,18 @@ int checkIfWon(char* pString[ROW_SIZE][ROW_SIZE]) {
 
 
     // Check diagonal.
-    if (pString[1][1] != " ") {
-        char* player = pString[1][1];
+    if (board[1][1] != " ") {
+        char* player = board[1][1];
 
-        if (pString[0][0] == player && pString[1][1] == player && pString[2][2] == player) return 1;
-        if (pString[0][2] == player && pString[1][1] == player && pString[2][0] == player) return 1;
+        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return 1;
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return 1;
     }
 
     // Check if all fields are filled.
     int filledFields = 0;
     for (int x = 0; x < ROW_SIZE; ++x) {
         for (int y = 0; y < ROW_SIZE; ++y) {
-            if (pString[x][y] != " ") filledFields++;
+            if (board[x][y] != " ") filledFields++;
         }
     }
 
@@ -143,7 +143,7 @@ void update(float deltaTime) {
             }
         }
 
-        won = checkIfWon(board);
+        won = checkIfWon();
     }
 }
 
