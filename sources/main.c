@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <stdio.h>
 
 #define ROW_SIZE (3)
 #define SCREEN_WIDTH (800)
@@ -14,12 +15,68 @@ const char *player2 = "x";
 char *board[ROW_SIZE][ROW_SIZE];
 
 int turn = 0; // 0 for player one & 1 for player two.
+int won = 0;
 
-void checkIfWon() {
-    // Check horizontal.
-    for (int i = 0; i < ROW_SIZE; ++i) {
+void initBoard();
 
+int checkIfWon() {
+    int matches;
+
+    // Check vertical.
+    for (int y = 0; y < ROW_SIZE; ++y) {
+        matches = 1;
+        char *player = board[0][y];
+
+        if (player == " ") break;
+
+        for (int x = 1; x < ROW_SIZE; ++x) {
+            if (board[x][y] == player) {
+                matches++;
+                printf("%d, %d ", x, y);
+            }
+        }
+
+        if (matches == ROW_SIZE) return 1;
     }
+
+    // Check horizontal.
+    for (int x = 0; x < ROW_SIZE; ++x) {
+        matches = 1;
+        char *player = board[x][0];
+
+        if (player == " ") break;
+
+        for (int y = 1; y < ROW_SIZE; ++y) {
+            if (board[x][y] == player) {
+                matches++;
+            }
+        }
+
+        if (matches == ROW_SIZE) return 1;
+    }
+
+
+    // Check diagonal.
+    if (board[1][1] != " ") {
+        char* player = board[1][1];
+
+        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return 1;
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return 1;
+    }
+
+    // Check if all fields are filled.
+    int filledFields = 0;
+    for (int x = 0; x < ROW_SIZE; ++x) {
+        for (int y = 0; y < ROW_SIZE; ++y) {
+            if (board[x][y] != " ") filledFields++;
+        }
+    }
+
+    if (filledFields == ROW_SIZE * ROW_SIZE) {
+        return 1;
+    }
+
+    return 0;
 }
 
 void draw() {
@@ -46,10 +103,26 @@ void draw() {
         }
     }
 
+    // Win screen.
+    if (won == 1) {
+        const char *text = "Press space to restart!";
+        const Vector2 textSize = MeasureTextEx(GetFontDefault(), text, 20, 1);
+        DrawText(text, GetScreenWidth() / 2 - textSize.x / 2, GetScreenHeight() / 2 + textSize.y + 10, 20, BLACK);
+    }
+
     EndDrawing();
 }
 
 void update(float deltaTime) {
+    if (won == 1) {
+        if (IsKeyReleased(KEY_SPACE)) {
+            initBoard();
+            turn = 0;
+            won = 0;
+        }
+        return;
+    }
+
     if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
         Vector2 pos = GetMousePosition();
 
@@ -70,14 +143,14 @@ void update(float deltaTime) {
             }
         }
 
-        checkIfWon();
+        won = checkIfWon();
     }
 }
 
 void initBoard() {
     for (int x = 0; x < ROW_SIZE; ++x) {
         for (int y = 0; y < ROW_SIZE; ++y) {
-            char *text = " ";
+            const char *text = " ";
             board[x][y] = text;
         }
     }
