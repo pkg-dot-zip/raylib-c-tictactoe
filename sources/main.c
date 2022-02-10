@@ -9,6 +9,8 @@
 
 const int distance = 40;
 const int fontSize = 20;
+const char* player1 = "o";
+const char* player2 = "x";
 
 typedef struct {
     char *value;
@@ -19,6 +21,13 @@ typedef struct {
 field board[BOARD_SIZE];
 int turn = 0; // 0 for player one & 1 for player two.
 
+void checkIfWon() {
+    // Check horizontal.
+    for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
+        
+    }
+}
+
 void draw() {
     BeginDrawing();
 
@@ -26,7 +35,8 @@ void draw() {
 
     // Draw board.
     for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
-        DrawRectangleLines(GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + board[i].x * distance, GetScreenHeight() / 2 + board[i].y * distance,
+        DrawRectangleLines(GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + board[i].x * distance,
+                           GetScreenHeight() / 2 + board[i].y * distance,
                            distance, distance, BLACK);
     }
 
@@ -48,17 +58,30 @@ void update(float deltaTime) {
 
         for (int i = 0; i < sizeof(board) / sizeof(board[0]); ++i) {
             field value = board[i];
-            Rectangle rect = {GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + value.x * distance, GetScreenHeight() / 2 + value.y * distance,
+            Rectangle rect = {GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + value.x * distance,
+                              GetScreenHeight() / 2 + value.y * distance,
                               distance, distance};
 
             if (CheckCollisionPointRec(pos, rect)) {
 
                 // Check if no move has been made on that field, then set the appropriate player's letter there.
                 if (board[i].value == " ") {
-                    board[i].value = turn == 0 ? "o" : "x";
+                    board[i].value = turn == 0 ? player1 : player2;
                     turn = turn == 0 ? 1 : 0; // Switch turn.
                 }
             }
+        }
+
+        checkIfWon();
+    }
+}
+
+void initBoard() {
+    for (int x = 0; x < BOARD_SIZE / ROW_SIZE; ++x) {
+        for (int y = 0; y < BOARD_SIZE / ROW_SIZE; ++y) {
+            char *text = " ";
+            field value = {text, x, y};
+            board[y * ROW_SIZE + x] = value;
         }
     }
 }
@@ -68,14 +91,7 @@ void init() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
-    // Init board.
-    for (int x = 0; x < BOARD_SIZE / ROW_SIZE; ++x) {
-        for (int y = 0; y < BOARD_SIZE / ROW_SIZE; ++y) {
-            char *text = " ";
-            field value = {text, x, y};
-            board[y * ROW_SIZE + x] = value;
-        }
-    }
+    initBoard();
 }
 
 int deInit() {
