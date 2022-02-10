@@ -1,6 +1,7 @@
 #include "raylib.h"
 
 #define BOARD_SIZE (9)
+#define ROW_SIZE (3)
 #define SCREEN_WIDTH (800)
 #define SCREEN_HEIGHT (450)
 
@@ -56,15 +57,16 @@ void update(float deltaTime) {
 }
 
 void init() {
+    SetConfigFlags(FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
     // Init board.
-    for (int x = 0; x < BOARD_SIZE / 3; ++x) {
-        for (int y = 0; y < BOARD_SIZE / 3; ++y) {
+    for (int x = 0; x < BOARD_SIZE / ROW_SIZE; ++x) {
+        for (int y = 0; y < BOARD_SIZE / ROW_SIZE; ++y) {
             char *text = "h";
             field value = {text, x, y};
-            board[y * 3 + x] = value;
+            board[y * ROW_SIZE + x] = value;
         }
     }
 }
