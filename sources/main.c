@@ -17,6 +17,7 @@ typedef struct {
 } field;
 
 field board[BOARD_SIZE];
+int turn = 0; // 0 for player one & 1 for player two.
 
 void draw() {
     BeginDrawing();
@@ -49,9 +50,14 @@ void update(float deltaTime) {
             field value = board[i];
             Rectangle rect = {GetScreenWidth() / 2 - (ROW_SIZE * (distance / 2)) + value.x * distance, GetScreenHeight() / 2 + value.y * distance,
                               distance, distance};
+
             if (CheckCollisionPointRec(pos, rect)) {
-                board[i].value = "X";
-                // TODO: Switch turn.
+
+                // Check if no move has been made on that field, then set the appropriate player's letter there.
+                if (board[i].value == " ") {
+                    board[i].value = turn == 0 ? "o" : "x";
+                    turn = turn == 0 ? 1 : 0; // Switch turn.
+                }
             }
         }
     }
@@ -65,7 +71,7 @@ void init() {
     // Init board.
     for (int x = 0; x < BOARD_SIZE / ROW_SIZE; ++x) {
         for (int y = 0; y < BOARD_SIZE / ROW_SIZE; ++y) {
-            char *text = "h";
+            char *text = " ";
             field value = {text, x, y};
             board[y * ROW_SIZE + x] = value;
         }
