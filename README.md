@@ -33,4 +33,4 @@ Raylib-c-tictactoe is a simple example of a tic-tac-toe game written in C using 
 - [CMake template for raylib](https://github.com/SasLuca/raylib-cmake-template) - Template for raylib
 
 ## ✍️ Authors <a name = "authors"></a>
-- [@OnsPetruske](https://github.com/pkg-dot-zip) - Development
+- [@pkg-dot-zip](https://github.com/pkg-dot-zip) - Development
